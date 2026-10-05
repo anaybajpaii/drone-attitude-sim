@@ -5,6 +5,11 @@ DroneState::DroneState()
       rollRate(0.0), pitchRate(0.0), yawRate(0.0),
       rollDisturbance(0.05), pitchDisturbance(-0.03), yawDisturbance(0.02) {}
 
+DroneState::DroneState(double initRoll, double initPitch, double initYaw)
+    : roll(initRoll), pitch(initPitch), yaw(initYaw),
+      rollRate(0.0), pitchRate(0.0), yawRate(0.0),
+      rollDisturbance(0.05), pitchDisturbance(-0.03), yawDisturbance(0.02) {}
+
 void DroneState::update(double dt, double rollCorrection, double pitchCorrection, double yawCorrection) {
     rollRate += (rollDisturbance + rollCorrection) * dt;
     pitchRate += (pitchDisturbance + pitchCorrection) * dt;

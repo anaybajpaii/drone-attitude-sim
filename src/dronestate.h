@@ -4,6 +4,7 @@
 class DroneState {
 public:
     DroneState();
+    DroneState(double initRoll, double initPitch, double initYaw);
     void update(double dt, double rollCorrection = 0.0, double pitchCorrection = 0.0, double yawCorrection = 0.0);
     double getRoll() const;
     double getPitch() const;
