@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cstdlib>
+#include <string>
 #include "DroneState.h"
 #include "DataLogger.h"
 #include "PIDController.h"
@@ -17,8 +18,9 @@ int main(int argc, char* argv[]) {
     double rollKp = 2.0, rollKi = 0.1, rollKd = 0.5;
     double pitchKp = 2.0, pitchKi = 0.1, pitchKd = 0.5;
     double yawKp = 2.0, yawKi = 0.1, yawKd = 0.5;
+    std::string outputPath = "data/drift.csv";
 
-    if (argc == 13) {
+    if (argc == 13 || argc == 14) {
         initRollDeg = std::atof(argv[1]);
         initPitchDeg = std::atof(argv[2]);
         initYawDeg = std::atof(argv[3]);
@@ -31,17 +33,20 @@ int main(int argc, char* argv[]) {
         yawKp = std::atof(argv[10]);
         yawKi = std::atof(argv[11]);
         yawKd = std::atof(argv[12]);
+        if (argc == 14) {
+            outputPath = argv[13];
+        }
     } else if (argc != 1) {
         std::cerr << "Usage: " << argv[0]
-                  << " [initRollDeg initPitchDeg initYawDeg rollKp rollKi rollKd pitchKp pitchKi pitchKd yawKp yawKi yawKd]\n";
+                  << " [initRollDeg initPitchDeg initYawDeg rollKp rollKi rollKd pitchKp pitchKi pitchKd yawKp yawKi yawKd [outputPath]]\n";
         return 1;
     }
 
     DroneState state(initRollDeg * degToRad, initPitchDeg * degToRad, initYawDeg * degToRad);
-    DataLogger logger("data/drift.csv");
+    DataLogger logger(outputPath);
 
     if (!logger.isOpen()) {
-        std::cerr << "Could not open data/drift.csv for writing\n";
+        std::cerr << "Could not open " << outputPath << " for writing\n";
         return 1;
     }
 
